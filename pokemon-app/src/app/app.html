@@ -1,0 +1,30 @@
+<!-- Need to place a marker for angular to understand where it should render
+ the generations page (the routes content )-->
+  <html>
+    <app-header />
+    <!-- Takes me back to home page -->
+    <!-- routerLinkActive will allow you to assign a css class to this element
+      if the element that led to the current active route being loaded-->
+      <div class="grid-container">
+        <ul>
+          <!-- This is an anchor tag, allows me to create hyperlinks -->
+          <!-- routerLink are not auto detected out of the box bc it is 
+            an angular application. Must import routerLink in the ts file -->
+            <a class="grid-item" routerLink="/">
+              <li>Home</li>
+            </a>
+            <a class="grid-item" routerLink="/generations">
+              <li>Generations</li>
+            </a>
+            <a class="grid-item" routerLink="/berries">
+              <li>Berries</li>
+            </a>
+            <a class="grid-item" routerLink="/encounters">
+              <li>Encounters</li>
+            </a>
+        </ul>
+        </div>
+  </html>
+<!-- Make a placeholder(marker) to tell where the loaded component 
+that is in routing should be rendered -- BELOW IT -- -->  
+<router-outlet />

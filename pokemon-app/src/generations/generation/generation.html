@@ -1,0 +1,18 @@
+<body>
+    <header>
+        <h2>Main Region: {{ Pservice.ActiveRegion() }}</h2>
+    </header>
+    <div class="grid-container">
+        <ul>
+                <a [routerLink]="['pokedex']">
+                    <li>Pokedex</li>
+                </a>
+                <a [routerLink]="['abilities']">
+                    <li>Abilities</li>
+                </a>
+        </ul>
+    </div>
+    <div>
+        <router-outlet />
+    </div>
+</body>

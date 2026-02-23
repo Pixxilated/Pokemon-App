@@ -1,0 +1,41 @@
+ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+}
+
+.grid-container {
+    display: grid;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 10px;
+    
+    border: 2px solid #3C5AA6;
+
+    /* This moves it farther from the header*/
+    padding: 1%;
+    background-color: #C7A008;
+}
+
+a:link, a:visited {
+    background-color: #3C5AA6;
+    color: black;
+    text-decoration: none;
+    padding: 14px 25px;
+    text-align: center;
+    display: inline-block;
+
+    /* This is how i got the rounded corners VV*/
+    border-radius: 55px;
+    border: 1px solid #3C5AA6
+}
+
+a:hover, a:active {
+    background-color: #5a7cd1;
+}
+
+body {
+    margin: 0;
+    background-color: #C7A008;
+}
