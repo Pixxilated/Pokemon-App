@@ -3,9 +3,7 @@ export interface pokedexModel {
     pokemonName: string;
     pokemonSprite: string;
     pokemonTypes: {
-        types: {
-            type1: string;
-            type2: string | null;
-        }
+        type1: string;
+        type2: string | null;
     }
 }

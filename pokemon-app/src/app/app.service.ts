@@ -1,7 +1,9 @@
-import { DestroyRef, inject, Injectable, OnInit, signal } from "@angular/core";
+import { DestroyRef, inject, Injectable, signal } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 
 import { GenerationTemplate } from "../generations/generation/generation.model";
+import { pokedexModel } from "../generations/generation/pokedex/pokedex-card.model";
+import { map } from "rxjs";
 
 @Injectable ({
     providedIn: 'root'
@@ -11,6 +13,7 @@ export class pokeService{
   // response from API call that will tell us the region
   ActiveRegion = signal<string | null>(null);
   private generationNumber = signal<string | null>(null);
+  private pokedexInfo = signal<pokedexModel | null>(null);
 
   public speciesNames: string[] = [];
   public GenRegionSpecies: string[] = [];
@@ -68,5 +71,41 @@ export class pokeService{
           this.destroyRef.onDestroy(() => {
             subscription2.unsubscribe();
           });
+      }
+
+      // METHOD - API Call
+      // We now have the species names.. next we need an API
+      // call to get the pokedex numbers, sprite URL, types
+      // for each pokemon card
+      getPokedexInfo(pokemonName: string) {
+
+        // This method will get called for each
+        // new pokemon card that is created in the pokedex component
+        const subscription3 = this.httpClient
+        .get('https://pokeapi.co/api/v2/pokemon/' + pokemonName)
+        .pipe(
+          // The API response has a lot of info, but we only need a few things for the pokedex card
+          // so we will use the map operator to create a new object with just the info we need)
+          map((resData: any) => resData = {
+            pokemonName: resData.name,
+            pokedexNumber: resData.id,
+            spriteUrl: resData.sprites.front_default,
+            types: resData.types.map((type: any) => type.type.name)
+          })
+        )
+        .subscribe({
+          next: (resData) => {
+            // Now that resData only has the info we need
+            // we can put it into the PokedexInfo signal which will be used to create the pokedex card
+            this.pokedexInfo.set({
+              pokemonNum: resData.pokedexNumber,
+              pokemonName: resData.pokemonName,
+              pokemonSprite: resData.spriteUrl,
+              pokemonTypes: resData.types
+            });
+
+            console.log(this.pokedexInfo())
+          }
+        })
       }
     }

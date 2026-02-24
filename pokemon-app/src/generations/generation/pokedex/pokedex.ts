@@ -1,7 +1,7 @@
-import { Component, OnInit, inject, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core'
 
 import { pokedexModel } from './pokedex-card.model';
-import { GenerationTemplate } from '../generation.model';
+import { pokeService } from '../../../app/app.service';
 
 @Component({
   selector: 'app-pokedex',
@@ -10,5 +10,8 @@ import { GenerationTemplate } from '../generation.model';
   imports: [],
 })
 export class Pokedex {
-  pokeCards = input.required<GenerationTemplate[]>();
+  // This will be the pokedex card for each pokemon species in the generation
+  pokeCards = input.required<pokedexModel[]>();
+  Pservice = inject(pokeService);
+  
 }
