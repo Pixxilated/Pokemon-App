@@ -2,87 +2,71 @@ import { DestroyRef, inject, Injectable, OnInit, signal } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 
 import { GenerationTemplate } from "../generations/generation/generation.model";
-import { map } from "rxjs";
 
 @Injectable ({
     providedIn: 'root'
 })
 
-export class pokeService implements OnInit{
-    // values we want to store from the http request
-  private pokemonNum: string[] = [];
-  private pokemonSpriteUrl = signal<string | null>(null);
-  private pokemonType1 = signal<string | null>(null);
-  private pokemonType2 = signal<string | null>(null);
-
-  // response from API call that will tell us the region -- Name aka 1,2,3
+export class pokeService{
+  // response from API call that will tell us the region
   ActiveRegion = signal<string | null>(null);
+  private generationNumber = signal<string | null>(null);
+
+  public speciesNames: string[] = [];
+  public GenRegionSpecies: string[] = [];
 
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
 
-  // Get and set methods for the class
-  setGen(mainRegion: string) {
-    this.ActiveRegion.set(mainRegion)
-  }
-
-  getGen() {
-    return this.ActiveRegion;
-  }
-
-  setPokeNums(pokeNums: string[]) {
-    this.pokemonNum = pokeNums;
-  }
-
-  getPokeNums() {
-    return this.pokemonNum;
-  }
-
-  // API calls
-    ngOnInit() {
-        // Get the Region Name
-        // Make the subscription const so that we can open and close as we see fit
-        const subscription2 = this.httpClient
-        .get('https://pokeapi.co/api/v2/pokemon/' )
-        .subscribe({
-        });
-
-        this.destroyRef.onDestroy(() => {
-            subscription2.unsubscribe();
-        })
-    }
-
-    convertNumToRegion () {
+    // METHOD - API Call
+    // This method will get the region name for the
+    // selected generation and set it to the ActiveRegion signal
+    getRegion () {
         // Grab our current route - /generations/{id}
         const activeRoute = window.location.pathname;
+
         // Split the route by its / so we can access the id
         const activeGeneration = activeRoute.split('/')
         console.log(activeGeneration.at(activeGeneration.length-1)) // Number
-        const genNum = activeGeneration.at(activeGeneration.length-1)!
+        this.generationNumber.set(activeGeneration.at(activeGeneration.length-1)!)
 
         const subscription = this.httpClient
-      .get<GenerationTemplate>('https://pokeapi.co/api/v2/generation/' + genNum.at(genNum.length-1))
-      .pipe(
-        map((resData) => ({
-          main_region: resData.main_region,
-          pokemon_species: resData.pokemon_species.map(pokemon => ({
-            name: pokemon.name,
-            id: pokemon.url.split('/').filter(Boolean).at(-1)
-          })),
-          }),
-        )
-      )
+      .get<GenerationTemplate>('https://pokeapi.co/api/v2/generation/' + this.generationNumber())
       .subscribe({
         next: (resData) => {
           const regionName = (resData.main_region.name.charAt(0).toUpperCase() + resData.main_region.name.slice(1));
           this.ActiveRegion.set(regionName)
-
-          console.log(resData.pokemon_species)
         }
       });
-  
+
+      // Destroy to prevent memory leaks
         this.destroyRef.onDestroy(() => {
-        subscription.unsubscribe();
-      });
+          subscription.unsubscribe();
+        });
+      };
+
+      // METHOD - API Call
+      // This method will get the species names for 
+      // the selected generations and set it to the speciesNames array
+      getSpeciesNames() {
+       // We already have the Generation number
+       // Call API to get the species names for the generation
+       const subscription2 = this.httpClient
+         .get<any>(
+           'https://pokeapi.co/api/v2/generation/' + this.generationNumber()
+         )
+         .subscribe({
+           next: (resData) => {
+             // resData.pokemon_species is an array of objects with a 'name' property
+             // .map() is esentially a for loop that creates a new array with just the names of the pokemon species
+             this.speciesNames = resData.pokemon_species.map((pokemon_species:any) => pokemon_species.name);
+             console.log(this.speciesNames);
+           }
+         });
+
+         // Destroy to prevent memory leaks
+          this.destroyRef.onDestroy(() => {
+            subscription2.unsubscribe();
+          });
+      }
     }
-}

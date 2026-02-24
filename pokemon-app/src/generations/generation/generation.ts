@@ -1,9 +1,6 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet, RouterLink, } from "@angular/router";
-import { map } from 'rxjs';
 
-import { GenerationTemplate } from './generation.model';
 import { pokeService } from '../../app/app.service';
 
 @Component({
@@ -18,10 +15,9 @@ export class Generation implements OnInit {
   // Need to tell angular how to provide the things you want to inject
   Pservice = inject(pokeService);
 
-  // This will get the generations Main Region
-  // https://pokeapi.co/api/v2/generation/{id or name}/
-
   ngOnInit() {
-    this.Pservice.convertNumToRegion();
+    // Get the region name for the generation
+    this.Pservice.getRegion();
+    this.Pservice.getSpeciesNames();
   }
 }
