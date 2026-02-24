@@ -2,18 +2,18 @@ import { DestroyRef, inject, Injectable, signal } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 
 import { GenerationTemplate } from "../generations/generation/generation.model";
-import { pokedexModel } from "../generations/generation/pokedex/pokedex-card.model";
+import { pokedexModel } from "../generations/generation/pokedex/pokedex-card/pokedex-card.model";
 import { map } from "rxjs";
 
 @Injectable ({
     providedIn: 'root'
 })
 
-export class pokeService{
+export class pokeService {
   // response from API call that will tell us the region
   ActiveRegion = signal<string | null>(null);
   private generationNumber = signal<string | null>(null);
-  private pokedexInfo = signal<pokedexModel | null>(null);
+  public pokedexInfo = signal<pokedexModel | null>(null);
 
   public speciesNames: string[] = [];
   public GenRegionSpecies: string[] = [];
@@ -95,17 +95,23 @@ export class pokeService{
         )
         .subscribe({
           next: (resData) => {
-            // Now that resData only has the info we need
-            // we can put it into the PokedexInfo signal which will be used to create the pokedex card
-            this.pokedexInfo.set({
+            const pokedexData = {
               pokemonNum: resData.pokedexNumber,
               pokemonName: resData.pokemonName,
               pokemonSprite: resData.spriteUrl,
               pokemonTypes: resData.types
-            });
-
-            console.log(this.pokedexInfo())
+            };
+            this.pokedexInfo.set(pokedexData);
+            console.log(this.pokedexInfo());
+            return this.pokedexInfo();
           }
         })
+
+        // Destroy to prevent memory leaks
+          this.destroyRef.onDestroy(() => {
+            subscription3.unsubscribe();
+          });
+          
+        return this.pokedexInfo();
       }
     }
