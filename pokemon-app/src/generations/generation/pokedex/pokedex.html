@@ -3,7 +3,6 @@
     <!-- This will get each name in the species array list -->
     @for (pokemonName of Pservice.speciesNames; track pokemonName) {
         <li>
-            {{ pokemonName + " CardComponent" }}
             <app-pokedex-card [pokemonName]="pokemonName"></app-pokedex-card>
         </li>
     }

@@ -95,14 +95,14 @@ export class pokeService {
         )
         .subscribe({
           next: (resData) => {
-            const pokedexData = {
+            this.pokedexInfo.set({
               pokemonNum: resData.pokedexNumber,
               pokemonName: resData.pokemonName,
               pokemonSprite: resData.spriteUrl,
               pokemonTypes: resData.types
-            };
-            this.pokedexInfo.set(pokedexData);
+            } as pokedexModel);
             console.log(this.pokedexInfo());
+            console.log(this.pokedexInfo()!.pokemonSprite);
             return this.pokedexInfo();
           }
         })
