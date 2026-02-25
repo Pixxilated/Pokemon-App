@@ -24,6 +24,10 @@
             </a>
         </ul>
         </div>
+        <!-- If there is an active Region - Display it -->
+        @if(Pservice.ActiveRegion()) {
+          <h2>Main Region: {{ Pservice.ActiveRegion() }}</h2>
+        }
   </html>
 <!-- Make a placeholder(marker) to tell where the loaded component 
 that is in routing should be rendered -- BELOW IT -- -->  

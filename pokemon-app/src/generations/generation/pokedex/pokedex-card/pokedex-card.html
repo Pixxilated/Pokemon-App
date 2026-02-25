@@ -8,11 +8,11 @@
             @if (this.pokemon()?.type2 === null) {
             <!-- This Pokemon has only one type -->
              <!-- Use NG Clas as well -->
-                <div class="SingleType" [ngClass]="this.pokemon()?.type1">{{ this.pokemon()?.type1 }}</div>
+                <li class="SingleType" [ngClass]="this.pokemon()?.type1">{{ this.pokemon()?.type1 }}</li>
             } @else {
             <!-- This Pokemon has two types -->
-            <div class="DualType" [ngClass]="this.pokemon()?.type1">{{ this.pokemon()?.type1 }}</div>
-            <div class="DualType" [ngClass]="this.pokemon()?.type2">{{ this.pokemon()?.type2 }}</div>
+            <li class="DualType" [ngClass]="this.pokemon()?.type1">{{ this.pokemon()?.type1 }}</li>
+            <li class="DualType" [ngClass]="this.pokemon()?.type2">{{ this.pokemon()?.type2 }}</li>
             }
     </div>
 </body>
