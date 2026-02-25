@@ -13,10 +13,8 @@ export class pokeService {
   // response from API call that will tell us the region
   ActiveRegion = signal<string | null>(null);
   private generationNumber = signal<string | null>(null);
-  public pokedexInfo = signal<pokedexModel | null>(null);
 
   public speciesNames: string[] = [];
-  public GenRegionSpecies: string[] = [];
 
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
@@ -78,11 +76,10 @@ export class pokeService {
       // call to get the pokedex numbers, sprite URL, types
       // for each pokemon card
       getPokedexInfo(pokemonName: string) {
-
         // This method will get called for each
         // new pokemon card that is created in the pokedex component
-        const subscription3 = this.httpClient
-        .get('https://pokeapi.co/api/v2/pokemon/' + pokemonName)
+        return this.httpClient
+        .get<pokedexModel>('https://pokeapi.co/api/v2/pokemon/' + pokemonName)
         .pipe(
           // The API response has a lot of info, but we only need a few things for the pokedex card
           // so we will use the map operator to create a new object with just the info we need)
@@ -90,28 +87,11 @@ export class pokeService {
             pokemonName: resData.name,
             pokedexNumber: resData.id,
             spriteUrl: resData.sprites.front_default,
-            types: resData.types.map((type: any) => type.type.name)
+            pokemonTypes: {
+              type1: resData.types[0]?.type.name,
+              type2: resData.types[1]?.type.name || null
+            }
           })
         )
-        .subscribe({
-          next: (resData) => {
-            this.pokedexInfo.set({
-              pokemonNum: resData.pokedexNumber,
-              pokemonName: resData.pokemonName,
-              pokemonSprite: resData.spriteUrl,
-              pokemonTypes: resData.types
-            } as pokedexModel);
-            console.log(this.pokedexInfo());
-            console.log(this.pokedexInfo()!.pokemonSprite);
-            return this.pokedexInfo();
-          }
-        })
-
-        // Destroy to prevent memory leaks
-          this.destroyRef.onDestroy(() => {
-            subscription3.unsubscribe();
-          });
-          
-        return this.pokedexInfo();
       }
     }

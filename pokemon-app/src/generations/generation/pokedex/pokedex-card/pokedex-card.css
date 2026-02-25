@@ -1,0 +1,30 @@
+body {
+    border: solid red;
+}
+
+li {
+    list-style: none;
+}
+
+ul {
+    display: flex;
+    align-items: center;
+}
+
+img {
+    display: flex;
+    justify-content: center;
+    border: solid pink;
+    
+}
+
+.SingleType {
+    display: flex;
+    justify-content: center;
+}
+
+.DualType {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}

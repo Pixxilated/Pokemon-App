@@ -4,6 +4,6 @@ export interface pokedexModel {
     pokemonSprite: string;
     pokemonTypes: {
         type1: string;
-        type2: string | null;
+        type2: any | null;
     }
 }

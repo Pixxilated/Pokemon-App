@@ -11,6 +11,6 @@ import { pokeService } from '../../../app/app.service';
   imports: [CommonModule, PokedexCard],
 })
 export class Pokedex {
-  // This will be the pokedex card for each pokemon species in the generation
+  // Injecting the pokeService to fetch pokemon data
   Pservice = inject(pokeService);
 }

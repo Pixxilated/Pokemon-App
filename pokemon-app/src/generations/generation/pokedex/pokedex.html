@@ -1,9 +1,11 @@
-<ul>
-    <!-- For Loop to iterate through species to display them -->
-    <!-- This will get each name in the species array list -->
-    @for (pokemonName of Pservice.speciesNames; track pokemonName) {
-        <li>
-            <app-pokedex-card [pokemonName]="pokemonName"></app-pokedex-card>
-        </li>
-    }
-</ul>
+<div class="pokedex-container">
+    <ul>
+        <!-- For Loop to iterate through species to display them -->
+        <!-- This will get each name in the species array list -->
+        @for (pokemonName of Pservice.speciesNames; track pokemonName) {
+            <div>
+                <app-pokedex-card [pokemonName]="pokemonName"></app-pokedex-card>
+            </div>
+        }
+    </ul>
+</div>
