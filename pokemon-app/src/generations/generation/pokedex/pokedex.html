@@ -1,11 +1,18 @@
-<div class="pokedex-container">
-    <ul>
-        <!-- For Loop to iterate through species to display them -->
-        <!-- This will get each name in the species array list -->
-        @for (pokemonName of Pservice.speciesNames; track pokemonName) {
-            <div>
+<body>
+    <div class="container">
+        <div class="row">
+            <!-- For Loop to iterate through species to display them -->
+            <!-- This will get each name in the species array list -->
+            @for (pokemonName of Pservice.speciesNames; track pokemonName) {
+            @if (((Pservice.speciesNames.indexOf(pokemonName)) % 4) === 0) {
+                <div class="w-100 d-none d-md-block"></div>
+            } @else if (((Pservice.speciesNames.indexOf(pokemonName)) % 20) === 0) {
+                <!-- Some logic to get to next page -->
+            }
+            <div class="col-4 col-md-3">
                 <app-pokedex-card [pokemonName]="pokemonName"></app-pokedex-card>
             </div>
-        }
-    </ul>
-</div>
+            }
+        </div>
+    </div>
+</body>

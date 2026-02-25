@@ -6,6 +6,7 @@ import { Encounters } from '../encounters/encounters';
 import { Generation } from '../generations/generation/generation';
 import { Pokedex } from '../generations/generation/pokedex/pokedex';
 import { Abilities } from '../generations/generation/abilities/abilities';
+import { Moves } from '../generations/generation/moves/moves';
 
 export const routes: Routes = [
     {
@@ -24,6 +25,10 @@ export const routes: Routes = [
     {
         path: 'generations/:generationId/abilities',
         component: Abilities
+    },
+    {
+        path: 'generations/:generationId/moves',
+        component: Moves
     },
     {
         path: 'berries',  // <your-domain>/generations so localhost:4200/generations

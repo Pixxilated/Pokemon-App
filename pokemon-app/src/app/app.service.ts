@@ -59,7 +59,8 @@ export class pokeService {
          .subscribe({
            next: (resData) => {
              // resData.pokemon_species is an array of objects with a 'name' property
-             // .map() is esentially a for loop that creates a new array with just the names of the pokemon species
+             // .map() will take each object in the array and return 
+             // a new obersvable with just the name property
              this.speciesNames = resData.pokemon_species.map((pokemon_species:any) => pokemon_species.name);
              console.log(this.speciesNames);
            }
@@ -81,16 +82,14 @@ export class pokeService {
         return this.httpClient
         .get<pokedexModel>('https://pokeapi.co/api/v2/pokemon/' + pokemonName)
         .pipe(
-          // The API response has a lot of info, but we only need a few things for the pokedex card
-          // so we will use the map operator to create a new object with just the info we need)
+          // We need to map the response data to the pokedexModel interface
+          // so we can use it in our pokedex card component
           map((resData: any) => resData = {
             pokemonName: resData.name,
             pokedexNumber: resData.id,
             spriteUrl: resData.sprites.front_default,
-            pokemonTypes: {
-              type1: resData.types[0]?.type.name,
-              type2: resData.types[1]?.type.name || null
-            }
+            type1: resData.types[0]!.type.name,
+            type2: resData.types[1]?.type.name || null
           })
         )
       }

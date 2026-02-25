@@ -1,19 +1,18 @@
 <body>
     <h2>{{ this.pokemon()?.pokemonNum }}</h2>
     <img [src]="this.pokemon()?.pokemonSprite" [alt]="this.pokemonName + 'Sprite'" />
-    <h1>{{ this.pokemon()?.pokemonName }}</h1>
+    <h2>{{ this.pokemon()?.pokemonName }}</h2>
 
     <!-- Check if the pokemon we are currently looking at has a second type-->
     <div>
-        <ul>
-            @if (this.pokemon()?.pokemonTypes?.type2 === null) {
+            @if (this.pokemon()?.type2 === null) {
             <!-- This Pokemon has only one type -->
-                <li class="SingleType" [ngStyle]="{'background-color': hashmap.get(this.pokemon()!.pokemonTypes.type1)}">{{ this.pokemon()?.pokemonTypes?.type1 }}</li>
+             <!-- Use NG Clas as well -->
+                <div class="SingleType" [ngClass]="this.pokemon()?.type1">{{ this.pokemon()?.type1 }}</div>
             } @else {
             <!-- This Pokemon has two types -->
-            <li class="DualType" [ngStyle]="{'background-color': hashmap.get(this.pokemon()!.pokemonTypes.type1)}"> {{ this.pokemon()?.pokemonTypes?.type1 }}</li>
-            <li class="DualType" [ngStyle]="{'background-color': hashmap.get(this.pokemon()!.pokemonTypes.type2)}"> {{ this.pokemon()?.pokemonTypes?.type2 }}</li>
+            <div class="DualType" [ngClass]="this.pokemon()?.type1">{{ this.pokemon()?.type1 }}</div>
+            <div class="DualType" [ngClass]="this.pokemon()?.type2">{{ this.pokemon()?.type2 }}</div>
             }
-        </ul>
     </div>
 </body>
