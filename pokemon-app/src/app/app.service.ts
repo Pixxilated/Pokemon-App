@@ -12,9 +12,7 @@ import { map } from "rxjs";
 export class pokeService {
   // response from API call that will tell us the region
   ActiveRegion = signal<string | null>(null);
-  private generationNumber = signal<string | null>(null);
-
-  public speciesNames: string[] = [];
+  generationNumber = signal<string | null>(null);
 
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
@@ -22,17 +20,9 @@ export class pokeService {
     // METHOD - API Call
     // This method will get the region name for the
     // selected generation and set it to the ActiveRegion signal
-    getRegion () {
-        // Grab our current route - /generations/{id}
-        const activeRoute = window.location.pathname;
-
-        // Split the route by its / so we can access the id
-        const activeGeneration = activeRoute.split('/')
-        console.log(activeGeneration.at(activeGeneration.length-1)) // Number
-        this.generationNumber.set(activeGeneration.at(activeGeneration.length-1)!)
-
-        const subscription = this.httpClient
-      .get<GenerationTemplate>('https://pokeapi.co/api/v2/generation/' + this.generationNumber())
+    getRegion (generationId: string) {
+      const subscription = this.httpClient
+      .get<GenerationTemplate>('https://pokeapi.co/api/v2/generation/' + generationId)
       .subscribe({
         next: (resData) => {
           const regionName = (resData.main_region.name.charAt(0).toUpperCase() + resData.main_region.name.slice(1));
@@ -49,27 +39,13 @@ export class pokeService {
       // METHOD - API Call
       // This method will get the species names for 
       // the selected generations and set it to the speciesNames array
-      getSpeciesNames() {
+      getSpeciesNames(generationId: string) {
        // We already have the Generation number
        // Call API to get the species names for the generation
-       const subscription2 = this.httpClient
+       return this.httpClient
          .get<any>(
-           'https://pokeapi.co/api/v2/generation/' + this.generationNumber()
+           'https://pokeapi.co/api/v2/generation/' + generationId
          )
-         .subscribe({
-           next: (resData) => {
-             // resData.pokemon_species is an array of objects with a 'name' property
-             // .map() will take each object in the array and return 
-             // a new obersvable with just the name property
-             this.speciesNames = resData.pokemon_species.map((pokemon_species:any) => pokemon_species.name);
-             console.log(this.speciesNames);
-           }
-         });
-
-         // Destroy to prevent memory leaks
-          this.destroyRef.onDestroy(() => {
-            subscription2.unsubscribe();
-          });
       }
 
       // METHOD - API Call

@@ -1,18 +1,23 @@
 <body>
+    <!-- For loop that will only show 20 Elements per page -->
+     <!-- It needs to add 20 to the currentPage -->
     <div class="container">
         <div class="row">
             <!-- For Loop to iterate through species to display them -->
             <!-- This will get each name in the species array list -->
-            @for (pokemonName of Pservice.speciesNames; track pokemonName) {
-            @if (((Pservice.speciesNames.indexOf(pokemonName)) % 4) === 0) {
-                <div class="w-100 d-none d-md-block"></div>
-            } @else if (((Pservice.speciesNames.indexOf(pokemonName)) % 20) === 0) {
-                <!-- Some logic to get to next page -->
-            }
+            @for (pokemonName of this.speciesNames(); track pokemonName) {
             <div class="col-4 col-md-3">
-                <app-pokedex-card [pokemonName]="pokemonName"></app-pokedex-card>
+                <app-pokedex-card 
+                [pokemonName]="pokemonName"
+                [currentPageNum]="currentPageNum-1"
+                [elementNum]="this.speciesNames()!.indexOf(pokemonName)">
+            </app-pokedex-card>
             </div>
             }
         </div>
     </div>
+
+    <!-- This is where the Pagination Nav is going -->
+    <button (click)="newPage(-1)"> < Previous  </button>
+    <button (click)="newPage(1)"> Next > </button>
 </body>

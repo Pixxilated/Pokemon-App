@@ -16,14 +16,15 @@ a:hover, a:active {
 }
 
 .grid-container {
-    display: grid;
+    display: flex;
     list-style: none;
     padding: 0;
-    margin: 0;
-    gap: 10px;
+    margin: 10px;
 
     /* This moves it farther from the header*/
     padding: 1%;
+
+    justify-content: center;
 }
 
 li {

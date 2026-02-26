@@ -1,18 +1,22 @@
+@if(isActive()){
 <body>
-    <h2>{{ this.pokemon()?.pokemonNum }}</h2>
-    <img [src]="this.pokemon()?.pokemonSprite" [alt]="this.pokemonName + 'Sprite'" />
-    <h2>{{ this.pokemon()?.pokemonName }}</h2>
+    <div>
+        <h2>{{ this.pokemon()?.pokemonNum }}</h2>
+        <img [src]="this.pokemon()?.pokemonSprite" [alt]="this.pokemonName + 'Sprite'" />
+        <h2>{{ this.pokemon()?.pokemonName }}</h2>
 
-    <!-- Check if the pokemon we are currently looking at has a second type-->
-    <ul>
+        <!-- Check if the pokemon we are currently looking at has a second type-->
+        <ul>
             @if (this.pokemon()?.type2 === null) {
             <!-- This Pokemon has only one type -->
-             <!-- Use NG Clas as well -->
-                <li class="SingleType" [ngClass]="this.pokemon()?.type1">{{ this.pokemon()?.type1 }}</li>
+            <!-- Use NG Clas as well -->
+            <li class="SingleType" [ngClass]="this.pokemon()?.type1">{{ this.pokemon()?.type1 }}</li>
             } @else {
             <!-- This Pokemon has two types -->
             <li class="DualType" [ngClass]="this.pokemon()?.type1">{{ this.pokemon()?.type1 }}</li>
             <li class="DualType" [ngClass]="this.pokemon()?.type2">{{ this.pokemon()?.type2 }}</li>
             }
-    </ul>
+        </ul>
+    </div>
 </body>
+}

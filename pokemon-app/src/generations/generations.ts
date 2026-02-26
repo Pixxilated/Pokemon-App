@@ -4,7 +4,7 @@ import { CommonModule } from "@angular/common";
 
 @Component({
   selector: 'app-generations',
-  imports: [RouterLink, RouterOutlet, CommonModule],
+  imports: [RouterLink, CommonModule],
   templateUrl: './generations.html',
   styleUrl: './generations.css',
 })

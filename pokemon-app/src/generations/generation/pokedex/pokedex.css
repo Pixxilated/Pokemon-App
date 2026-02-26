@@ -1,6 +1,31 @@
 html, body {
     background-color: #C7A008;
+    text-align: center;
 
     margin: 0;
     padding: 0;
+}
+
+.nav {
+    justify-content: center;
+    margin: 100px;
+}
+
+button {
+    background-color: #3C5AA6;
+    color: black;
+    text-decoration: none;
+    padding: 14px 25px;
+    text-align: center;
+    display: inline-block;
+
+    /* This is how i got the rounded corners VV*/
+    border-radius: 40px;
+    border: 1px solid #3C5AA6;
+
+    margin: 50px;
+}
+
+button:hover {
+    background-color: #5a7cd1;
 }
