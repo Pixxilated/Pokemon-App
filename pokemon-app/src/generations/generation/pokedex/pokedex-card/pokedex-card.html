@@ -4,7 +4,7 @@
     <h2>{{ this.pokemon()?.pokemonName }}</h2>
 
     <!-- Check if the pokemon we are currently looking at has a second type-->
-    <div>
+    <ul>
             @if (this.pokemon()?.type2 === null) {
             <!-- This Pokemon has only one type -->
              <!-- Use NG Clas as well -->
@@ -14,5 +14,5 @@
             <li class="DualType" [ngClass]="this.pokemon()?.type1">{{ this.pokemon()?.type1 }}</li>
             <li class="DualType" [ngClass]="this.pokemon()?.type2">{{ this.pokemon()?.type2 }}</li>
             }
-    </div>
+    </ul>
 </body>
